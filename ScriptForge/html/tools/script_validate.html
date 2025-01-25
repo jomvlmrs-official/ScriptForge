@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScriptForge Validator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #2b3e50;
+            color: #ffffff;
+        }
+        .container {
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #1a2b3c;
+            margin-bottom: 0.3125px;
+        }
+        .header .logo {
+            font-size: 24px;
+        }
+        .breadcrumbs {
+            padding: 20px;
+        }
+        .breadcrumbs ul.breadcrumb {
+            padding: 10px 16px;
+            margin-top: 0.3125px;
+            list-style: none;
+            background-color: #1a2b3c;
+        }
+        .breadcrumbs ul.breadcrumb li {
+            display: inline;
+            font-size: 18px;
+        }
+        .breadcrumbs ul.breadcrumb li+li:before {
+            padding: 8px;
+            color: white;
+            content: "/\00a0";
+        }
+        .breadcrumbs ul.breadcrumb li a {
+            color: white;
+            text-decoration: none;
+        }
+        .breadcrumbs ul.breadcrumb li a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        .editor-container {
+            background-color: #34495e;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .editor-container textarea {
+            width: 100%;
+            height: 300px;
+            background-color: #2b3e50;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            resize: none;
+        }
+        .inner-top-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 5px;
+            margin-top: 10px;
+        }
+        .inner-copy-button {
+            background-color: #27ae60;
+            border: none;
+            color: #ffffff;
+            padding: 10px 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .inner-copy-button:hover {
+            background-color: #1f8e50;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .buttons button {
+            background-color: #27ae60;
+            border: none;
+            color: #ffffff;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .buttons button.clear {
+            background-color: #e74c3c;
+        }
+        .buttons button.fix {
+            background-color: #f39c12;
+        }
+        .buttons button.import {
+            background-color: #2980b9;
+        }
+        .error-message {
+            background-color: #e74c3c;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .content {
+            background-color: #1a2b3c;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .content h2 {
+            margin-top: 0;
+        }
+        .footer {
+            background-color: #1a2b3c;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .export-button {
+            background-color: #2980b9;
+            border: none;
+            color: #ffffff;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo"><b>ScriptForge Validator</b></div>
+    </div>
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul class="breadcrumb">
+                <li><a onclick="window.location.href='./../tools.html'">Tools</a></li>
+                <li>ScriptForge Validator</li>
+            </ul>
+        </div>
+        <form id="scriptForm">
+            <div class="editor-container">
+                <div class="inner-bottom-section">
+                    <textarea id="script" name="script" placeholder="Paste your script here..." required></textarea>
+                </div>
+                <div class="inner-top-section">
+                    <button type="submit" class="inner-copy-button">Validate</button>
+                </div>
+            </div>
+        </form>
+        <div id="validationResult" class="error-message" style="display: none;"></div>
+        <div class="buttons">
+            <button class="clear" onclick="clearTextarea()">Clear</button>
+            <button class="fix" onclick="fixScript()">Fix</button>
+            <button class="import" onclick="importFile()">Import</button>
+            <button class="export-button" onclick="exportScript()">Export</button>
+        </div>
+        <div class="content">
+            <h2>About the ScriptForge Validator</h2>
+            <p>The ScriptForge Validator is an intuitive online tool designed to validate and debug JavaScript scripts quickly. Tailored for developers, it ensures your code is clean, error-free, and ready for use, making the scripting process efficient and hassle-free. Perfect for enhancing your projects with minimal effort.</p>
+            <h2>How to Use the ScriptForge Validator</h2>
+            <ol>
+                <li><strong>Copy Your Script:</strong> Copy your JavaScript script from your project files.</li>
+                <li><strong>Paste the Script:</strong> Open the JS Validator website and paste your script into the input editor.</li>
+                <li><strong>Validate the Script:</strong> Click "Validate" to analyze your script for errors, warnings, and improvements.</li>
+                <li><strong>Fix and Edit:</strong> Review flagged issues and make adjustments directly in the on-site editor.</li>
+                <li><strong>Export the Updated Script:</strong> Once the script is validated and optimized, export it to use in your project.</li>
+            </ol>
+            <p>This tool is perfect for refining and debugging your scripts, ensuring they’re efficient and error-free!</p>
+        </div>
+        <div class="footer">
+            &copy; 2025 ScriptForge Validator. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        function clearTextarea() {
+            document.getElementById('script').value = '';
+        }
+
+        function fixScript() {
+            const script = document.getElementById('script').value;
+            try {
+                new Function(script);
+                alert("No syntax errors found!");
+            } catch (e) {
+                alert("Error detected: " + e.message);
+            }
+        }
+
+        function importFile() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.js';
+            input.onchange = event => {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+                reader.onload = () => {
+                    document.getElementById('script').value = reader.result;
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function exportScript() {
+            const script = document.getElementById('script').value;
+            const blob = new Blob([script], { type: 'application/javascript' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'script.js';
+            link.click();
+        }
+
+        document.getElementById('scriptForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const script = document.getElementById('script').value;
+
+            fetch('/validate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ script: script }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('validationResult');
+                resultDiv.style.display = 'block';
+                resultDiv.textContent = data.result;
+            });
+        });
+    </script>
+</body>
+</html>
